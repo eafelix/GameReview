@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 
 interface SteamGame {
   appid: number;
@@ -58,11 +59,14 @@ export default function SteamGames() {
         >
           <div className="flex items-center space-x-4">
             {game.img_icon_url && (
-              <img
-                src={`https://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`}
-                alt={game.name}
-                className="w-16 h-16 object-cover rounded"
-              />
+              <div className="relative w-16 h-16">
+                <Image
+                  src={`https://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`}
+                  alt={game.name}
+                  fill
+                  className="object-cover rounded"
+                />
+              </div>
             )}
             <div>
               <h3 className="font-semibold text-lg">{game.name}</h3>

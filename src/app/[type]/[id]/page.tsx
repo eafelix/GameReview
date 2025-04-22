@@ -1,10 +1,17 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { StarIcon, FlameIcon, ArrowUpIcon, EyeIcon } from '@primer/octicons-react';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import StatsChart from '@/components/StatsChart';
+
+interface ItemData {
+  id: string;
+  name: string;
+  [key: string]: unknown;
+}
 
 // Mock data for demonstration
 const mockData = {
@@ -96,27 +103,48 @@ const mockData = {
   },
 };
 
-export default function DetailPage() {
+export default function ItemPage() {
+  const { type, id } = useParams();
   const { data: session } = useSession();
-  const params = useParams();
-  const { type, id } = params;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [data, setData] = useState<ItemData | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/${type}/${id}`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch ${type}`);
+        }
+        const result = await response.json();
+        setData(result);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (session) {
+      fetchData();
+    }
+  }, [session, type, id]);
 
   if (!session) {
     return (
-      <div className="text-center">
-        <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Please sign in to access this page</h1>
+      <div className="text-center py-4">
+        Please sign in to view this content
       </div>
     );
   }
 
-  const data = mockData[type as keyof typeof mockData]?.[id as string];
+  if (loading) {
+    return <div className="text-center py-4">Loading...</div>;
+  }
 
-  if (!data) {
-    return (
-      <div className="text-center">
-        <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Item not found</h1>
-      </div>
-    );
+  if (error) {
+    return <div className="text-red-500 text-center py-4">{error}</div>;
   }
 
   const renderContent = () => {
@@ -126,12 +154,12 @@ export default function DetailPage() {
           <div className="space-y-8">
             <div className="flex justify-between items-start">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{data.title}</h1>
-                <p className="text-lg text-gray-600 dark:text-gray-400">{data.genre}</p>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{data?.title || 'Unknown'}</h1>
+                <p className="text-lg text-gray-600 dark:text-gray-400">{data?.genre || 'Unknown'}</p>
               </div>
               <div className="flex items-center">
                 <StarIcon className="text-yellow-400" size={20} />
-                <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">{data.rating}</span>
+                <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">{data?.rating || 'Unknown'}</span>
               </div>
             </div>
 
@@ -141,19 +169,19 @@ export default function DetailPage() {
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
                   <div className="space-y-4">
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Developer:</span> {data.developer}
+                      <span className="font-medium text-gray-900 dark:text-white">Developer:</span> {data?.developer || 'Unknown'}
                     </div>
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Publisher:</span> {data.publisher}
+                      <span className="font-medium text-gray-900 dark:text-white">Publisher:</span> {data?.publisher || 'Unknown'}
                     </div>
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Platform:</span> {data.platform}
+                      <span className="font-medium text-gray-900 dark:text-white">Platform:</span> {data?.platform || 'Unknown'}
                     </div>
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Release Date:</span> {data.releaseDate}
+                      <span className="font-medium text-gray-900 dark:text-white">Release Date:</span> {data?.releaseDate || 'Unknown'}
                     </div>
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Reviews:</span> {data.reviews}
+                      <span className="font-medium text-gray-900 dark:text-white">Reviews:</span> {data?.reviews || 'Unknown'}
                     </div>
                   </div>
                 </div>
@@ -162,7 +190,7 @@ export default function DetailPage() {
               <div className="space-y-4">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Description</h2>
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
-                  <p className="text-gray-600 dark:text-gray-400">{data.description}</p>
+                  <p className="text-gray-600 dark:text-gray-400">{data?.description || 'Unknown'}</p>
                 </div>
               </div>
             </div>
@@ -170,11 +198,11 @@ export default function DetailPage() {
             <div className="space-y-4">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Similar Games</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {data.similarGames.map((game, index) => (
+                {data?.similarGames?.map((game, index) => (
                   <div key={index} className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
-                    <h3 className="font-medium text-gray-900 dark:text-white">{game}</h3>
+                    <h3 className="font-medium text-gray-900 dark:text-white">{game || 'Unknown'}</h3>
                   </div>
-                ))}
+                )) || 'Unknown'}
               </div>
             </div>
           </div>
@@ -185,10 +213,10 @@ export default function DetailPage() {
           <div className="space-y-8">
             <div className="flex justify-between items-start">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{data.name}</h1>
-                <p className="text-lg text-gray-600 dark:text-gray-400">{data.manufacturer}</p>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{data?.name || 'Unknown'}</h1>
+                <p className="text-lg text-gray-600 dark:text-gray-400">{data?.manufacturer || 'Unknown'}</p>
               </div>
-              <div className="text-xl font-bold text-gray-900 dark:text-white">{data.price}</div>
+              <div className="text-xl font-bold text-gray-900 dark:text-white">{data?.price || 'Unknown'}</div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -196,9 +224,9 @@ export default function DetailPage() {
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Specifications</h2>
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
                   <div className="space-y-4">
-                    {Object.entries(data.specs).map(([key, value]) => (
+                    {Object.entries(data?.specs || {}).map(([key, value]) => (
                       <div key={key}>
-                        <span className="font-medium text-gray-900 dark:text-white capitalize">{key}:</span> {value}
+                        <span className="font-medium text-gray-900 dark:text-white capitalize">{key}:</span> {value || 'Unknown'}
                       </div>
                     ))}
                   </div>
@@ -209,6 +237,10 @@ export default function DetailPage() {
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Notable Games</h2>
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
                   <div className="space-y-2">
+                    {data?.games?.map((game, index) => (
+                      <div key={index} className="text-gray-600 dark:text-gray-400">{game || 'Unknown'}</div>
+                    )) || 'Unknown'}
+                  </div>
                     {data.games.map((game, index) => (
                       <div key={index} className="text-gray-600 dark:text-gray-400">{game}</div>
                     ))}
