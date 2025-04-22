@@ -1,8 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { ChevronRightIcon } from '@primer/octicons';
+import { ChevronRightIcon } from '@primer/octicons-react';
 
 interface BreadcrumbItem {
   label: string;
@@ -14,23 +13,6 @@ interface BreadcrumbsProps {
 }
 
 export default function Breadcrumbs({ items }: BreadcrumbsProps) {
-  const pathname = usePathname();
-  const segments = pathname.split('/').filter(Boolean);
-
-  const breadcrumbs = segments.map((segment, index) => {
-    const href = `/${segments.slice(0, index + 1).join('/')}`;
-    const label = segment
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-
-    return {
-      href,
-      label,
-      isLast: index === segments.length - 1,
-    };
-  });
-
   return (
     <nav className="flex" aria-label="Breadcrumb">
       <ol className="flex items-center space-x-4">

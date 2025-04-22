@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@primer/octicons": "^19.15.1",
+    "@primer/octicons-react": "^19.15.1",
     "@primer/react": "^37.19.1",
     "@prisma/client": "^6.6.0",
     "@types/next-auth": "^3.13.0",
