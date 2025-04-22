@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Game {
+  id          String   @id @default(cuid())
+  title       String
+  rating      Float
+  reviews     Int
+  platform    String
+  releaseDate DateTime
+  genre       String
+  developer   String
+  publisher   String
+  description String
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Console {
+  id          String   @id @default(cuid())
+  name        String
+  manufacturer String
+  releaseDate DateTime
+  price       Float
+  specs       Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Publisher {
+  id          String   @id @default(cuid())
+  name        String
+  founded     DateTime
+  headquarters String
+  revenue     Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Franchise {
+  id          String   @id @default(cuid())
+  name        String
+  publisher   String
+  firstRelease DateTime
+  latestRelease DateTime
+  totalGames  Int
+  totalSales  Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Retailer {
+  id          String   @id @default(cuid())
+  name        String
+  founded     DateTime
+  headquarters String
+  locations   Int
+  revenue     Float
+  services    String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+} 
