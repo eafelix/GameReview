@@ -19,10 +19,8 @@ export default function SteamGames() {
 
   useEffect(() => {
     const fetchSteamGames = async () => {
-      if (!session?.user?.id) return;
-
       try {
-        const response = await fetch(`/api/steam/games?steamId=${session.user.id}`);
+        const response = await fetch('/api/steam/games');
         if (!response.ok) {
           throw new Error('Failed to fetch Steam games');
         }
@@ -36,7 +34,7 @@ export default function SteamGames() {
     };
 
     fetchSteamGames();
-  }, [session]);
+  }, []);
 
   if (loading) {
     return <div className="text-center py-4">Loading Steam games...</div>;
@@ -55,11 +53,11 @@ export default function SteamGames() {
       {games.map((game) => (
         <div
           key={game.appid}
-          className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow"
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 overflow-hidden border border-gray-200 dark:border-gray-700"
         >
-          <div className="flex items-center space-x-4">
+          <div className="p-3 flex items-center space-x-3">
             {game.img_icon_url && (
-              <div className="relative w-16 h-16">
+              <div className="relative w-12 h-12 flex-shrink-0">
                 <Image
                   src={`https://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`}
                   alt={game.name}
@@ -68,10 +66,10 @@ export default function SteamGames() {
                 />
               </div>
             )}
-            <div>
-              <h3 className="font-semibold text-lg">{game.name}</h3>
-              <p className="text-gray-600">
-                Playtime: {Math.round(game.playtime_forever / 60)} hours
+            <div className="flex-grow min-w-0">
+              <h3 className="font-medium text-gray-900 dark:text-white truncate">{game.name}</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {Math.round(game.playtime_forever / 60)} hours played
               </p>
             </div>
           </div>
