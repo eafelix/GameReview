@@ -241,10 +241,6 @@ export default function ItemPage() {
                       <div key={index} className="text-gray-600 dark:text-gray-400">{game || 'Unknown'}</div>
                     )) || 'Unknown'}
                   </div>
-                    {data.games.map((game, index) => (
-                      <div key={index} className="text-gray-600 dark:text-gray-400">{game}</div>
-                    ))}
-                  </div>
                 </div>
               </div>
             </div>
@@ -256,10 +252,10 @@ export default function ItemPage() {
           <div className="space-y-8">
             <div className="flex justify-between items-start">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{data.name}</h1>
-                <p className="text-lg text-gray-600 dark:text-gray-400">Founded: {data.founded}</p>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{data?.name || 'Unknown'}</h1>
+                <p className="text-lg text-gray-600 dark:text-gray-400">Founded: {data?.founded || 'Unknown'}</p>
               </div>
-              <div className="text-xl font-bold text-gray-900 dark:text-white">{data.revenue}</div>
+              <div className="text-xl font-bold text-gray-900 dark:text-white">{data?.revenue || 'Unknown'}</div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -268,13 +264,13 @@ export default function ItemPage() {
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
                   <div className="space-y-4">
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Headquarters:</span> {data.headquarters}
+                      <span className="font-medium text-gray-900 dark:text-white">Headquarters:</span> {data?.headquarters || 'Unknown'}
                     </div>
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Founded:</span> {data.founded}
+                      <span className="font-medium text-gray-900 dark:text-white">Founded:</span> {data?.founded || 'Unknown'}
                     </div>
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Revenue:</span> {data.revenue}
+                      <span className="font-medium text-gray-900 dark:text-white">Revenue:</span> {data?.revenue || 'Unknown'}
                     </div>
                   </div>
                 </div>
@@ -284,9 +280,9 @@ export default function ItemPage() {
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Notable Games</h2>
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
                   <div className="space-y-2">
-                    {data.notableGames.map((game, index) => (
-                      <div key={index} className="text-gray-600 dark:text-gray-400">{game}</div>
-                    ))}
+                    {data?.notableGames?.map((game, index) => (
+                      <div key={index} className="text-gray-600 dark:text-gray-400">{game || 'Unknown'}</div>
+                    )) || 'Unknown'}
                   </div>
                 </div>
               </div>
@@ -299,10 +295,10 @@ export default function ItemPage() {
           <div className="space-y-8">
             <div className="flex justify-between items-start">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{data.name}</h1>
-                <p className="text-lg text-gray-600 dark:text-gray-400">{data.publisher}</p>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{data?.name || 'Unknown'}</h1>
+                <p className="text-lg text-gray-600 dark:text-gray-400">{data?.publisher || 'Unknown'}</p>
               </div>
-              <div className="text-xl font-bold text-gray-900 dark:text-white">{data.totalSales}</div>
+              <div className="text-xl font-bold text-gray-900 dark:text-white">{data?.totalSales || 'Unknown'}</div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -311,16 +307,16 @@ export default function ItemPage() {
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
                   <div className="space-y-4">
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">First Release:</span> {data.firstRelease}
+                      <span className="font-medium text-gray-900 dark:text-white">First Release:</span> {data?.firstRelease || 'Unknown'}
                     </div>
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Latest Release:</span> {data.latestRelease}
+                      <span className="font-medium text-gray-900 dark:text-white">Latest Release:</span> {data?.latestRelease || 'Unknown'}
                     </div>
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Total Games:</span> {data.totalGames}
+                      <span className="font-medium text-gray-900 dark:text-white">Total Games:</span> {data?.totalGames || 'Unknown'}
                     </div>
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Total Sales:</span> {data.totalSales}
+                      <span className="font-medium text-gray-900 dark:text-white">Total Sales:</span> {data?.totalSales || 'Unknown'}
                     </div>
                   </div>
                 </div>
@@ -330,9 +326,9 @@ export default function ItemPage() {
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Main Characters</h2>
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
                   <div className="space-y-2">
-                    {data.mainCharacters.map((character, index) => (
-                      <div key={index} className="text-gray-600 dark:text-gray-400">{character}</div>
-                    ))}
+                    {data?.mainCharacters?.map((character, index) => (
+                      <div key={index} className="text-gray-600 dark:text-gray-400">{character || 'Unknown'}</div>
+                    )) || 'Unknown'}
                   </div>
                 </div>
               </div>
@@ -345,10 +341,10 @@ export default function ItemPage() {
           <div className="space-y-8">
             <div className="flex justify-between items-start">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{data.name}</h1>
-                <p className="text-lg text-gray-600 dark:text-gray-400">Founded: {data.founded}</p>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{data?.name || 'Unknown'}</h1>
+                <p className="text-lg text-gray-600 dark:text-gray-400">Founded: {data?.founded || 'Unknown'}</p>
               </div>
-              <div className="text-xl font-bold text-gray-900 dark:text-white">{data.revenue}</div>
+              <div className="text-xl font-bold text-gray-900 dark:text-white">{data?.revenue || 'Unknown'}</div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -357,16 +353,16 @@ export default function ItemPage() {
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
                   <div className="space-y-4">
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Headquarters:</span> {data.headquarters}
+                      <span className="font-medium text-gray-900 dark:text-white">Headquarters:</span> {data?.headquarters || 'Unknown'}
                     </div>
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Founded:</span> {data.founded}
+                      <span className="font-medium text-gray-900 dark:text-white">Founded:</span> {data?.founded || 'Unknown'}
                     </div>
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Locations:</span> {data.locations}
+                      <span className="font-medium text-gray-900 dark:text-white">Locations:</span> {data?.locations || 'Unknown'}
                     </div>
                     <div>
-                      <span className="font-medium text-gray-900 dark:text-white">Revenue:</span> {data.revenue}
+                      <span className="font-medium text-gray-900 dark:text-white">Revenue:</span> {data?.revenue || 'Unknown'}
                     </div>
                   </div>
                 </div>
@@ -376,9 +372,9 @@ export default function ItemPage() {
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Services</h2>
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
                   <div className="space-y-2">
-                    {data.services.map((service, index) => (
-                      <div key={index} className="text-gray-600 dark:text-gray-400">{service}</div>
-                    ))}
+                    {data?.services?.map((service, index) => (
+                      <div key={index} className="text-gray-600 dark:text-gray-400">{service || 'Unknown'}</div>
+                    )) || 'Unknown'}
                   </div>
                 </div>
               </div>
